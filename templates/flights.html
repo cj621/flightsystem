@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>Flight Management System</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Flight Management System</a>
+	    </div>
+	  </div>
+	</nav> <!-- Brand Navbar end -->
+
+	<div class="container">
+		{% if current_user.username %}
+			<h2> Welcome {{ current_user.username }}
+			<a href="{{ url_for('index.admin_logout') }}"><button class="btn btn-primary">Logout!</button></a>
+			</h2>
+
+			<a href="#" data-toggle="modal" data-target="#add_flight"><button class="btn btn-primary">Add a New Flight</button></a>
+
+
+		{% endif %}
+
+	</div>
+
+	<div class="container">
+	{% with messages = get_flashed_messages() %}
+	  	{% if messages %}
+	    		
+			{% for message in messages %}
+				<br /><p class="flashes"><strong>{{ message }}</strong></p>
+			{% endfor %}
+	    		
+	   	{% endif %}
+	{% endwith %}		
+		
+	</div>	
+
+	<br />
+
+	<div class="container">
+		<table border="2" width="100%">
+			
+		<thead>
+			<th>Flight No.</th>
+			<th>Source</th>
+			<th>Destination</th>
+			<th>Flight Date</th>
+			<th>Departure Time</th>
+			<th>Arrival at Destination</th>
+		</thead>
+			{% if flights %}
+				{% for flight in flights %}
+				<tr>
+					<td><a href=" {{ url_for('flight_information.flight_data', flight_no = flight.flight_number) }} "> {{ flight.flight_number }} </a></td>
+					<td> {{ flight.source }} </td>
+					<td> {{ flight.destination }} </td>
+					<td> {{ flight.flight_date }} </td>
+					<td> {{ flight.departure_time }} </td>
+					<td> {{ flight.destination_arrival_time }} </td>
+					<td> <a href=" {{ url_for('booking_information.flight_availability', flight_no = flight.flight_number) }} ">Check Availability & Book Seats</a> </td>
+					{% if current_user %}
+						<td> <a href=" {{ url_for('flight_information.booking_records', flight_no = flight.flight_number) }} ">Check Booking Records</a> </td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+
+	</div>
+
+
+      <!-- Modal for adding new flight information -->
+        <div class="modal fade" id="add_flight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add a New Flight</h4>
+              </div>
+              <div class="modal-body text-left">
+                  
+                  <!-- Form -->
+                  <form action=" {{url_for('flight_information.Add_new_flight') }} " method="POST">
+                    <div class="form-group">
+                      <label for="flight_number">Flight Number</label>
+                      <input type="text" class="form-control" name="flight_number" id="flight_number" placeholder="Flight Number" required>
+                    </div>  
+                      
+                    <div class="form-group">
+                      <label for="source">Source</label>
+                      <input type="text" class="form-control" name="source" id="source" placeholder="Source" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="destination">Destination</label>
+                      <input type="text" class="form-control" name="destination" id="destination" placeholder="Destination" required>
+                    </div> 
+                    
+                    <div class="form-group">
+                      <label for="flight_date">Flight Date (YYYY-MM-DD)</label>
+                      <input type="date" class="form-control" name="flight_date" id="flight_date"required>
+                    </div>       
+
+                    <div class="form-group">
+                      <label for="departure">Departure Time (HH:MM)</label>
+                      <input type="time" class="form-control" name="departure" id="departure" required>
+                    </div> 
+
+                    <div class="form-group">
+                      <label for="arrival">Destination Arrival Time (HH:MM)</label>
+                      <input type="time" class="form-control" name="arrival" id="arrival" required>
+                    </div> 
+
+                    <div class="form-group">
+                      <label for="total_seats">Total Seats (Number)</label>
+                      <input type="number" class="form-control" name="total_seats" id="total_seats" placeholder="Total Seats on flight" required>
+                    </div> 
+                                                                         
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    
+                  </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+
+</html>

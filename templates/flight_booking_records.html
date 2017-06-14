@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>Flight Management System</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Flight Management System</a>
+	    </div>
+	  </div>
+	</nav> <!-- Brand Navbar end -->
+
+
+	<div class="container">
+		<a href=" {{ url_for('flight_information.flights') }} "><button class="btn btn-primary">Back to All Flights</button></a>
+	</div>	
+
+	<br />
+
+	<div class="container">
+		<table border="2" width="100%">
+			
+		<thead>
+			<th>Flight No.</th>
+			<th>Flight Date</th>
+			<th>Departure Time</th>
+			<th>Total Seats</th>
+			<th>Booked Seats</th>
+		</thead>
+			{% if flight_booking_records %}
+				{% for record in flight_booking_records %}
+				<tr>
+					<td> {{ record.flight_number }} </td>
+					<td> {{ record.flight_date }} </td>
+					<td> {{ record.departure_time }} </td>
+					<td> {{ record.total_seats }} </td>
+					<td> {{ record.seats_booked }} </td>
+				</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+
+	</div>
+
+
+</body>
+
+</html>

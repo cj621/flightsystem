@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>Flight Management System</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Flight Management System</a>
+	    </div>
+	  </div>
+	</nav> <!-- Brand Navbar end -->
+
+	<div class="container">
+	{% with messages = get_flashed_messages() %}
+	  	{% if messages %}
+	    		
+			{% for message in messages %}
+				<br /><p class="flashes"><strong>{{ message }}</strong></p>
+			{% endfor %}
+	    		
+	   	{% endif %}
+	{% endwith %}		
+		
+	</div>	
+
+
+	<div class="container">
+
+	  <!-- Form -->
+	  <form action="/update_processing/{{ cust_booking_details.flight_number }}/{{ cust_booking_details.booking_id }} " method="POST">
+	    <div class="form-group">
+	      <label for="updated_email">Contact Email</label>
+	      <input type="email" class="form-control" name="updated_email" id="updated_email" value=" {{ cust_booking_details.contact_email }} " placeholder="Email" required>
+	    </div>  
+	      
+	    <h5>Current Seats Booked: {{ cust_booking_details.seats_booked }} </h5>
+
+	    <div class="form-group">
+	      <label for="released_seats">No. of Seats to be released </label>
+	      <input type="number" class="form-control" name="released_seats" id="released_seats" placeholder="Update Seats" required>
+	    </div>	
+
+	    <button type="submit" class="btn btn-primary">Update Booking Information</button>
+	  </form> <!-- End of Form -->
+
+	  <br />
+
+		<a href=" {{ url_for('flight_information.flights') }} "><button class="btn btn-primary">Cancel Booking / Back to All Flights</button></a>	  
+
+	</div>
+
+
+</body>
+
+</html>

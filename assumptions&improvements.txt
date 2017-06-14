@@ -1,0 +1,38 @@
+Assumptions:
+
+1. One flight (with a unique flight ID) will fly only on one date. This flight is not available on other dates (Although this can be done, but in this project, it is not considered.)
+
+2. One person can book a flight ticket for a particular flight only once, since there is no flight available with same flight ID on other dates.
+
+3. Admin account shall have a username and password in MySQL table so that operations like adding new flight and viewing booking records can be performed.
+
+4. New Admin creation is not available, for this we need to manually create the username and password for admin, without password being hashed (to avoid complexity)
+
+5. Updating Flight Information cannot update Flight Number, Source and Destination.
+
+6. Run requirements.txt for installing the dependencies.
+
+7. Run the application inside app folder with: 
+				export FLASK_APP=wsgi.py
+				flask run
+
+8. Before running the application, please check if the database is created with required tables and admin account as defined in the models. Also please change the values of SQLALCHEMY_DATABASE_URI in config.py file as appropriate.
+
+
+
+## Migration Commands (Flask-Migrate) (for self remembering)
+flask db init (for creating the migrations folder)
+flask db migrate (create migrations)
+flask db upgrade (apply migrations on DB)
+
+
+
+Improvements:
+
+1. Flight with same Flight Number can fly on different dates. Manage bookings and updation/deletion based on Flight Number and Flight Date.
+
+2. All the operations as decided in the application scope are completed, but the HTTP Methods like PUT, HEAD, DELETE, PATCH are not handled upto the mark. This can be improved considerably.
+
+3. The 'None' parameter for getting booking information based on booking ID can be handled more appropriately.
+
+4. Foreign Key Constraint on DB models can be added and improved (for updating all the occurrences of a particular value)

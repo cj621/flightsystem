@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>Flight Management System</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Flight Management System</a>
+	    </div>
+	  </div>
+	</nav> <!-- Brand Navbar end -->
+
+
+
+	<!-- Flash Messages for Customer Feedback -->
+	<div class="container">
+	{% with messages = get_flashed_messages() %}
+	  	{% if messages %}
+	    		<br />
+			{% for message in messages %}
+				<h4 class="flashes"><strong>{{ message }}</strong></h4>
+			{% endfor %}
+	    		
+	   	{% endif %}
+	{% endwith %}		
+		
+	</div>
+
+	
+
+	<div class="container">
+	{% if booking_details %}
+			<h2>Booking Information for Flight No. {{ booking_details.flight_number }} and Booking ID: {{ booking_details.booking_id }} </h2>
+			<h4>Contact Email: {{ booking_details.contact_email }} </h4>
+			<h4>Flight Date: {{ booking_details.flight_date }} </h4>
+			<h4>Departure Time: {{ booking_details.departure_time }} </h4>
+			<h4>Seats Booked:  {{ booking_details.seats_booked }} </h4>
+			<h4>Booking Status: {{ booking_details.booking_status }} </h4>
+			<h4>Ticket Booked On: {{ booking_details.ticket_booked_on }} </h4>
+			<h4>Booking updated On: {{ booking_details.ticket_booking_updated_on }} </h4>
+			<br />
+
+			<form action="/update_booking/{{ booking_details.flight_number }}/{{ booking_details.booking_id }}" method="POST">
+				<button type="submit" class="btn btn-primary">Update Booking Information</button>
+			</form>
+
+			<br />
+			
+			<form action="/delete_booking/{{ booking_details.flight_number }}/{{ booking_details.booking_id }}" method="DELETE">
+				<button type="submit" class="btn btn-primary">Cancel Ticket</button>
+			</form>
+
+			
+	{% else %}
+		<a href=" {{ url_for('booking_information.book_ticket', flight_no = flight_no) }} "><button class="btn btn-primary">Book a ticket for this flight</button></a>
+	{% endif %}
+	</div>
+
+	<br />
+
+	<div class="container">
+		<a href=" {{ url_for('flight_information.flights') }} "><button class="btn btn-primary">Back to All Flights</button></a>	
+	</div>
+	
+
+
+</body>
+
+</html>

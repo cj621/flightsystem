@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>Flight Management System</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Flight Management System</a>
+	    </div>
+	  </div>
+	</nav> <!-- Brand Navbar end -->
+
+	<div class="container">
+		<button class="btn btn-primary" onclick="login_form()">Admin Login</button>
+		<a href=" {{ url_for('flight_information.flights') }} "><button class="btn btn-primary">Book a flight</button></a>
+	</div>
+
+	<div class="container" id="admin_login" style="display: none">
+		<form action=" {{url_for('index.admin_login') }} " method="POST">
+        	UserName: <br />
+        	<input type="text" class="form-control" name="username" placeholder = "UserName" /><br />
+        	Password: <br />
+        	<input type="password" class="form-control" name="password" placeholder = "Password" /><br />
+        	<input type="submit" class="btn btn-primary" value="Login">
+    	</form>		
+	</div>
+
+	<div class="container">
+	{% with messages = get_flashed_messages() %}
+	  	{% if messages %}
+	    		
+			{% for message in messages %}
+				<br /><p class="flashes"><strong>{{ message }}</strong></p>
+			{% endfor %}
+	    		
+	   	{% endif %}
+	{% endwith %}		
+		
+	</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
